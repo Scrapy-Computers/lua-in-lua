@@ -333,4 +333,4 @@ function m:advance()
     return c
 end
 
-return m
+lua_scanner = m

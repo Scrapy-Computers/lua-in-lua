@@ -1,4 +1,4 @@
-print("Hello World")
+lua_dofile = [[print("Hello World")
 
 
 print("Environment closure testing")
@@ -49,10 +49,10 @@ for _, token in ipairs(tokens) do
 end
 
 print("Multiline strings")
-print([[
+print([\[
     Hello World
     xd
-]])
+]\])
 print([==[
 Yep
 localecategory
@@ -60,9 +60,9 @@ xd]==])
 
 -- test
 print("Comment test")
---[[
+--[\[
     multiline comment
-]]
+]\]
 print("mcomment")
 
 
@@ -70,4 +70,4 @@ local function test(x, ...)
     print(x, arg[1])
 end
 
-test(2, "Hello")
+test(2, "Hello")]]

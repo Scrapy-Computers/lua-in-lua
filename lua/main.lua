@@ -1,8 +1,12 @@
+dofile("scanner.lua")
+dofile("parser.lua")
+dofile("interpreter.lua")
 local m = {
-    Scanner = require("lua.scanner"),
-    Parser = require("lua.parser"),
-    Interpreter = require("lua.interpreter")
+    Scanner = lua_scanner,
+    Parser = lua_parser,
+    Interpreter = lua_interpreter
 }
+
 
 
 ---Parses string input and returns a tree
@@ -42,4 +46,4 @@ function m:dofile(file_path, environment, ...)
     return self:run(source, environment, ...)
 end
 
-return m
+lua_in_lua = m

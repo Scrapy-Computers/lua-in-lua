@@ -452,4 +452,4 @@ function m:getEnvVarargs(environment)
     if mt.enclosing then return self:getEnvVarargs(mt.enclosing) end
 end
 
-return m
+lua_interpreter = m

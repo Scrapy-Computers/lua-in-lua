@@ -539,4 +539,4 @@ end
 
 
 
-return m
+lua_parser = m

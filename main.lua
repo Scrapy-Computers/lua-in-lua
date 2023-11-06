@@ -1,10 +1,11 @@
-local lua = require("lua.main")
+dofile("./lua/main.lua")
+local lua = lua_in_lua
 
 -- Custom environment
 local env = {
     print = print,
-    getmetatable = getmetatable,
-    setmetatable = setmetatable,
+    --getmetatable = getmetatable,
+    --setmetatable = setmetatable,
     type = type,
     pcall = function(f, ...)
         local data = {pcall(f, ...)}
@@ -20,7 +21,7 @@ local env = {
     pairs = pairs,
     ipairs = ipairs,
     unpack = unpack,
-    io = io,
+    --io = io,
     table = table,
     string = string,
     tostring = tostring,
@@ -30,25 +31,25 @@ local env = {
 
 -- Custom require and dofile functions
 env._G = env
-env.require = function(fpath)
-    local fpath = fpath:gsub("%.", "/")
-    local f = io.open(fpath .. ".lua", "r")
-    local code = f:read("*a")
-    f:close()
+-- env.require = function(fpath)
+--     local fpath = fpath:gsub("%.", "/")
+--     local f = io.open(fpath .. ".lua", "r")
+--     local code = f:read("*a")
+--     f:close()
 
-    local success, ret = pcall(lua.run, lua, code, env)
+--     local success, ret = pcall(lua.run, lua, code, env)
 
-    if not success then
-        error("In file " .. fpath .. ": " .. ret)
-    end
+--     if not success then
+--         error("In file " .. fpath .. ": " .. ret)
+--     end
 
-    return ret
-end
+--     return ret
+-- end
 
 env.dofile = function(fpath)
-    local f = io.open(fpath, "r")
-    local code = f:read("*a")
-    f:close()
+    dofile(fpath)
+    local code = lua_dofile
+    lua_dofile = nil
 
     local success, ret = pcall(lua.run, lua, code, env)
 
