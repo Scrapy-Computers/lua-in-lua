@@ -39,11 +39,9 @@ end
 ---@param environment table
 ---@return ...
 function m:dofile(file_path, environment, ...)
-    local f = io.open(file_path, "r")
-    if not f then error("Failed to load file") end
-    local source = f:read("*a")
-    f:close()
+    dofile(file_path)
+    local source = lua_dofile
+    lua_dofile = nil
     return self:run(source, environment, ...)
 end
-
 lua_in_lua = m
