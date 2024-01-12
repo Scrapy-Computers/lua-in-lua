@@ -327,6 +327,8 @@ m.operations = {
         return l ^ r
     end,
     CONCAT = function(l, r)
+        if not l then l = "" end
+        if not r then r = "" end
         return l .. r
     end,
     LESS = function(l, r)
