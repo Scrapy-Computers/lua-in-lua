@@ -1,5 +1,13 @@
 local m = {}
 
+function setmetatable(table, mt)
+    table.__metaTableOhBoiSMwhyDontWeHaveThisNormally = mt
+end
+
+function getmetatable(table)
+    return table.__metaTableOhBoiSMwhyDontWeHaveThisNormally or {}
+end
+
 local function tableToString(t)
     if type(t) ~= 'table' then return tostring(t) end
     local s = "{"
