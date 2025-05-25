@@ -21,6 +21,8 @@ local function tableToString(t)
     return s .. "}"
 end
 
+m.loops = {}
+
 m.evals = {
     ['chunk'] = function(self, node, environment)
         for _, statement in ipairs(node.statements) do
@@ -210,7 +212,9 @@ m.evals = {
         if node.else_body then self:evaluate(node.else_body, new_env) end
     end,
     ["while"] = function(self, node, environment)
-        while self:evaluate(node.expr, environment) do
+        table.insert(self.loops, function ()
+            if not self:evaluate(node.expr, environment) then return true end
+
             local new_env = self:encloseEnvironment(environment)
             --self:evaluate(node.body, new_env)
 
@@ -218,14 +222,16 @@ m.evals = {
 
             if not success then
                 if type(r) == 'table' and r.type == 'break_error' then
-                    return
+                    return true
                 end
                 error(r)
             end
-        end
+
+            return false
+        end)
     end,
     ["repeat"] = function(self, node, environment)
-        repeat
+        table.insert(self.loops, function ()
             local new_env = self:encloseEnvironment(environment)
             --self:evaluate(node.body, new_env)
 
@@ -237,7 +243,9 @@ m.evals = {
                 end
                 error(r)
             end
-        until self:evaluate(node.expr, environment)
+
+            return not self:evaluate(node.expr, environment)
+        end)
     end,
     ["for"] = function(self, node, environment)
         local start = self:evaluate(node.start, environment)
