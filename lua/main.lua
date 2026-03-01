@@ -44,4 +44,13 @@ function m:dofile(file_path, environment, ...)
     lua_dofile = nil
     return self:run(source, environment, ...)
 end
+
+function m:tick()
+    for i, loop in ipairs(self.Interpreter.loops) do
+            if  loop() then
+                table.remove(self.Interpreter.loops, i)
+            end
+    end
+end
+
 lua_in_lua = m
